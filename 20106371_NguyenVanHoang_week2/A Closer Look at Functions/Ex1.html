@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Poll App</title>
+</head>
+<body>
+
+  <h1>Poll: What's your favourite programming language?</h1>
+  
+  <!-- Button to answer the poll -->
+  <button class="poll-btn">Answer poll</button>
+
+  <!-- Optional: Display area for the results -->
+  <h2>Results:</h2>
+  <div id="results"></div>
+
+  <script>
+    // Poll Object
+    const poll = {
+      question: "What is your favourite programming language?",
+      options: ["0: JavaScript", "1: Python", "2: Rust", "3: C++"],
+      answers: new Array(4).fill(0), // Initialize with zero
+
+      // Method to register new answer
+      registerNewAnswer() {
+        // Display prompt to choose an option
+        const answer = Number(
+          prompt(
+            `${this.question}\n${this.options.join("\n")}\n(Write option number)`
+          )
+        );
+
+        // Check if the input is valid and within range
+        if (typeof answer === "number" && answer >= 0 && answer < this.answers.length) {
+          this.answers[answer]++;
+        } else {
+          alert("Invalid input! Please enter a valid number.");
+        }
+
+        // Display results after registering the new answer
+        this.displayResults();
+        this.displayResults("string");
+      },
+
+      // Method to display results
+      displayResults(type = "array") {
+        if (type === "array") {
+          console.log(this.answers);
+          document.getElementById("results").innerText = `Results: [${this.answers.join(", ")}]`;
+        } else if (type === "string") {
+          console.log(`Poll results are ${this.answers.join(", ")}`);
+          document.getElementById("results").innerText = `Poll results are ${this.answers.join(", ")}`;
+        }
+      },
+    };
+
+    // Event listener for the button click
+    document.querySelector(".poll-btn").addEventListener("click", poll.registerNewAnswer.bind(poll));
+
+    // Test Data for Bonus
+    const testData1 = [5, 2, 3];
+    const testData2 = [1, 5, 3, 9, 6, 1];
+
+    poll.displayResults.call({ answers: testData1 }, "array");
+    poll.displayResults.call({ answers: testData1 }, "string");
+
+    poll.displayResults.call({ answers: testData2 }, "array");
+    poll.displayResults.call({ answers: testData2 }, "string");
+
+  </script>
+</body>
+</html>
